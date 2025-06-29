@@ -133,11 +133,7 @@ function App() {
 
       {/* Footer */}
       <Element name="footer">
-        <Footer
-          language={language}
-          scrollToSection={scrollToSection}
-          content={content}
-        />
+        <Footer language={language} />
       </Element>
 
       {/* Floating Menu */}

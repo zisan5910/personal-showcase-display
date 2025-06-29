@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Expand, Minimize, Loader2 } from 'lucide-react';
@@ -109,8 +108,8 @@ const CertificateSlider = ({ certificates, language }: CertificateSliderProps) =
   const toggleFullscreen = () => {
     if (!isFullscreen) {
       if (fullscreenRef.current?.requestFullscreen) {
-        fullscreenRef.current.requestFullscreen().catch(err => {
-          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        fullscreenRef.current.requestFullscreen().catch(() => {
+          console.error('Error attempting to enable fullscreen');
         });
       }
     } else {
@@ -211,7 +210,7 @@ const CertificateSlider = ({ certificates, language }: CertificateSliderProps) =
                   filter: isFullscreen ? 'none' : 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))'
                 }}
                 loading="lazy"
-                onError={(e) => {
+                onError={() => {
                   setFailedImages(prev => new Set([...prev, certificates[currentIndex].image]));
                 }}
               />

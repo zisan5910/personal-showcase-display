@@ -3,7 +3,7 @@ interface InstallPWAProps {
   language: 'en' | 'bn';
 }
 
-const InstallPWA = ({ language }: InstallPWAProps) => {
+const InstallPWA = ({ }: InstallPWAProps) => {
   // Component disabled - no PWA installation functionality
   return null;
 };

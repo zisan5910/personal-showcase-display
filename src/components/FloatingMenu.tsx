@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Send,
   User,
-  Loader2,
   X,
 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -487,7 +486,7 @@ export const LiveChat = () => {
       )}
 
       {/* Add CSS animations */}
-      <style jsx global>{`
+      <style>{`
         @keyframes float {
           0%, 100% {
             transform: translateY(0);
