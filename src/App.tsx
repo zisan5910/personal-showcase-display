@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import Courses from './components/Courses';
 import Education from './components/Education';
 import Experience from './components/Experience';
+import FloatingMenu from './components/FloatingMenu';
 import Footer from './components/Footer';
 import Information from './components/Information';
 import InstallPWA from './components/InstallPWA';
@@ -134,6 +135,9 @@ function App() {
       <Element name="footer">
         <Footer language={language} />
       </Element>
+
+      {/* Floating Menu */}
+      <FloatingMenu />
     </div>
   );
 }
