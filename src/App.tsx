@@ -15,6 +15,7 @@ import Information from './components/Information';
 import Education from './components/Education';
 import Experience from './components/Experience';
 import Footer from './components/Footer';
+import InstallPWA from './components/InstallPWA';
 import { content, certificates } from './data/content';
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-slate-50">
       <Navigation 
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -75,58 +76,54 @@ function App() {
         setLanguage={setLanguage}
       />
 
+      <InstallPWA language={language} />
+
       <ProfileSection
         language={language}
         content={content as any}
         scrollToSection={scrollToSection}
       />
 
-      <main className="container mx-auto px-4 py-16 space-y-20 max-w-6xl">
-        <Element name="education">
-          <div className="premium-section animate-fade-in">
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 gap-8">
+          <Element name="education">
             <Education language={language} />
-          </div>
-        </Element>
+          </Element>
 
-        <Element name="courses">
-          <div className="premium-section animate-fade-in">
+          <Element name="courses">
             <Courses language={language} />
-          </div>
-        </Element>
+          </Element>
 
-        <Element name="experience">
-          <div className="premium-section animate-fade-in">
+          <Element name="experience">
             <Experience language={language} />
-          </div>
-        </Element>
+          </Element>
 
-        <CertificateSection
-          language={language}
-          content={content}
-          certificates={certificates}
-        />
+          <CertificateSection
+            language={language}
+            content={content}
+            certificates={certificates}
+          />
 
-        <Element name="skills">
-          <div className="premium-section animate-fade-in">
+          <Element name="skills">
             <Skill language={language} />
-          </div>
-        </Element>
+          </Element>
 
-        <Element name="family">
-          <div className="premium-section animate-fade-in">
+          <Element name="family">
             <Information language={language} age={age} />
-          </div>
-        </Element>
+          </Element>
 
-        <Element name="contact">
-          <div className="premium-section animate-fade-in">
+          <Element name="contact">
             <Contact language={language} />
-          </div>
-        </Element>
+          </Element>
+        </div>
       </main>
 
       <Element name="footer">
-        <Footer language={language} />
+        <Footer
+          language={language}
+          scrollToSection={scrollToSection}
+          content={content}
+        />
       </Element>
 
       <FloatingMenu />

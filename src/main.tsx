@@ -5,14 +5,15 @@ import { registerSW } from 'virtual:pwa-register';
 import App from './App.tsx';
 import './index.css';
 
-// Register service worker only for offline asset caching (no install prompts)
+// Register service worker for PWA functionality
 const updateSW = registerSW({
   onNeedRefresh() {
-    // Auto-update without user prompt for seamless experience
-    updateSW(true);
+    if (confirm('New content available. Reload?')) {
+      updateSW(true);
+    }
   },
   onOfflineReady() {
-    console.log('App assets cached and ready for offline use');
+    console.log('App ready to work offline');
   },
 });
 
