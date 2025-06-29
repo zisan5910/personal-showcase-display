@@ -66,7 +66,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       <Navigation 
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -81,21 +81,21 @@ function App() {
         scrollToSection={scrollToSection}
       />
 
-      <main className="container mx-auto px-4 py-12 space-y-16">
+      <main className="container mx-auto px-4 py-16 space-y-20 max-w-6xl">
         <Element name="education">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Education language={language} />
           </div>
         </Element>
 
         <Element name="courses">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Courses language={language} />
           </div>
         </Element>
 
         <Element name="experience">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Experience language={language} />
           </div>
         </Element>
@@ -107,30 +107,26 @@ function App() {
         />
 
         <Element name="skills">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Skill language={language} />
           </div>
         </Element>
 
         <Element name="family">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Information language={language} age={age} />
           </div>
         </Element>
 
         <Element name="contact">
-          <div className="premium-section hover-lift">
+          <div className="premium-section animate-fade-in">
             <Contact language={language} />
           </div>
         </Element>
       </main>
 
       <Element name="footer">
-        <Footer
-          language={language}
-          scrollToSection={scrollToSection}
-          content={content}
-        />
+        <Footer language={language} />
       </Element>
 
       <FloatingMenu />

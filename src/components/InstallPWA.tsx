@@ -1,15 +1,27 @@
 
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 interface InstallPWAProps {
   language: 'en' | 'bn';
 }
 
-// Disabled PWA install component - only returns null to maintain compatibility
-const InstallPWA = ({ language }: InstallPWAProps) => {
-  // PWA installation functionality has been removed
-  // Component kept for compatibility but renders nothing
-  return null;
+const InstallPWA = ({ language: _language }: InstallPWAProps) => {
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+
+  useEffect(() => {
+    // PWA installation functionality is disabled
+    setShowInstallPrompt(false);
+  }, []);
+
+  if (!showInstallPrompt) {
+    return null;
+  }
+
+  return (
+    <div className="hidden">
+      {/* PWA installation UI removed */}
+    </div>
+  );
 };
 
 export default InstallPWA;

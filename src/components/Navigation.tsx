@@ -1,8 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { Menu, X, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { cn } from '../lib/utils';
 
 interface NavigationProps {
   navigationItems: Array<{
@@ -25,7 +25,7 @@ const Navigation = ({
 }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { ref, inView } = useInView({
+  const { ref } = useInView({
     threshold: 0,
     initialInView: true,
   });
@@ -41,8 +41,8 @@ const Navigation = ({
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const getIconColor = (id: string) => {
-    const colors = {
+  const getIconColor = (id: string): string => {
+    const colors: Record<string, string> = {
       profile: 'text-indigo-500',
       education: 'text-blue-500',
       courses: 'text-emerald-500',
@@ -51,9 +51,9 @@ const Navigation = ({
       skills: 'text-purple-500',
       family: 'text-pink-500',
       contact: 'text-cyan-500',
-      share: 'text-teal-500',
+      'social-links': 'text-teal-500',
     };
-    return colors[id.toLowerCase()] || 'text-gray-500';
+    return colors[id] || 'text-gray-500';
   };
 
   return (
@@ -62,102 +62,87 @@ const Navigation = ({
       initial={{ y: -100 }}
       animate={{
         y: 0,
-        backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.75)',
-        boxShadow: isScrolled ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
+        backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.90)',
+        boxShadow: isScrolled ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 2px 8px rgba(0, 0, 0, 0.05)',
       }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      className={cn(
-        'fixed w-full z-50 transition-all duration-300',
-        'backdrop-blur-xl border-b border-gray-200/50'
-      )}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      className="fixed w-full z-50 transition-all duration-300 backdrop-blur-xl border-b border-gray-200/30"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Mobile Menu Button */}
           <motion.button
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleMenu}
-            className="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none"
+            className="lg:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100/80 focus:outline-none transition-colors"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={isMenuOpen ? 'close' : 'menu'}
-                initial={{ opacity: 0.5, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.15 }}
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.2 }}
               >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </motion.div>
             </AnimatePresence>
           </motion.button>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2">
+          <div className="hidden lg:flex items-center space-x-1">
             {navigationItems.map((item) => (
               <motion.button
                 key={item.id}
                 whileHover={{ 
-                  scale: 1.05,
-                  backgroundColor: 'rgba(241, 245, 249, 0.7)'
+                  scale: 1.02,
+                  y: -1,
                 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection(item.target || item.id)}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300 ${
                   activeSection === (item.target || item.id)
-                    ? 'bg-gray-100/80 text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                )}
+                    ? 'bg-white/80 text-gray-900 shadow-lg ring-1 ring-gray-200/50'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                }`}
               >
                 <motion.div
                   animate={{
-                    rotate: activeSection === (item.target || item.id) ? [0, 360] : 0,
+                    rotate: activeSection === (item.target || item.id) ? 360 : 0,
+                    scale: activeSection === (item.target || item.id) ? 1.1 : 1,
                   }}
-                  transition={{ duration: 0.6, ease: "backOut" }}
-                  className={cn('w-5 h-5', getIconColor(item.id))}
+                  transition={{ duration: 0.5, ease: "backOut" }}
+                  className={`w-5 h-5 ${getIconColor(item.id)}`}
                 >
                   {item.icon}
                 </motion.div>
-                <motion.span 
-                  className="font-medium text-sm"
-                  animate={{
-                    fontWeight: activeSection === (item.target || item.id) ? 600 : 500
-                  }}
-                >
-                  {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
-                </motion.span>
+                <span className="font-medium text-sm tracking-wide">
+                  {item.id.charAt(0).toUpperCase() + item.id.slice(1).replace('-', ' ')}
+                </span>
               </motion.button>
             ))}
           </div>
 
-          {/* Language Toggle Button with Translate Icon - Updated to match ghost theme */}
+          {/* Language Toggle Button */}
           <motion.button
             whileHover={{ 
-              scale: 1.1,
-              rotate: [0, 10, -10, 0],
-              backgroundColor: 'rgba(124, 58, 237, 0.1)'
+              scale: 1.05,
+              y: -1,
             }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-            className={cn(
-              'p-2 rounded-full transition-all duration-300',
-              'text-purple-700 hover:text-purple-800',
-              'border border-purple-300 hover:border-purple-400',
-              'focus:outline-none focus:ring-2 focus:ring-purple-400/30',
-              'bg-purple-50/50 hover:bg-purple-50'
-            )}
+            className="p-2.5 rounded-xl transition-all duration-300 text-purple-600 hover:text-purple-700 border border-purple-200 hover:border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400/30 bg-purple-50/70 hover:bg-purple-100/70"
             aria-label="Toggle language"
           >
             <motion.div
               key={language}
               initial={{ rotate: 0 }}
               animate={{ rotate: language === 'en' ? 0 : 180 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <Languages size={20} className="text-current" />
+              <Languages size={18} />
             </motion.div>
           </motion.button>
         </div>
@@ -173,9 +158,9 @@ const Navigation = ({
               }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="lg:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50"
+              className="lg:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50 rounded-b-2xl shadow-xl"
             >
-              <div className="px-2 pt-2 pb-3 space-y-2">
+              <div className="px-3 pt-3 pb-4 space-y-1">
                 {navigationItems.map((item, index) => (
                   <motion.button
                     key={item.id}
@@ -195,24 +180,23 @@ const Navigation = ({
                       scrollToSection(item.target || item.id);
                       setIsMenuOpen(false);
                     }}
-                    className={cn(
-                      'w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200',
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                       activeSection === (item.target || item.id)
-                        ? 'bg-gray-100/80 text-gray-900'
+                        ? 'bg-gray-100/80 text-gray-900 shadow-sm'
                         : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-900'
-                    )}
+                    }`}
                   >
                     <motion.div
                       animate={{
                         rotate: activeSection === (item.target || item.id) ? 360 : 0,
                       }}
-                      transition={{ duration: 0.6 }}
-                      className={cn('w-6 h-6', getIconColor(item.id))}
+                      transition={{ duration: 0.5 }}
+                      className={`w-5 h-5 ${getIconColor(item.id)}`}
                     >
                       {item.icon}
                     </motion.div>
                     <span className="font-medium text-sm">
-                      {item.id.charAt(0).toUpperCase() + item.id.slice(1)}
+                      {item.id.charAt(0).toUpperCase() + item.id.slice(1).replace('-', ' ')}
                     </span>
                   </motion.button>
                 ))}
