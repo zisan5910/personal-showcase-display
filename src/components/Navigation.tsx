@@ -128,7 +128,7 @@ const Navigation = ({
             ))}
           </div>
 
-          {/* Language Toggle Button with Translate Icon - Updated to match ghost theme */}
+          {/* Language Toggle Button */}
           <motion.button
             whileHover={{ 
               scale: 1.1,
