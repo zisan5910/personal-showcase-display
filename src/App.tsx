@@ -3,19 +3,21 @@ import { useState, useEffect } from 'react';
 import { Element, scroller } from 'react-scroll';
 import { UserCircle, School, BookOpen, Briefcase, FileBadge, Code, HeartHandshake, Mail, Share2 } from 'lucide-react';
 
-// Import components
-import Navigation from './components/Navigation';
-import FloatingMenu from './components/FloatingMenu';
-import ProfileSection from './components/ProfileSection';
+// Import components in alphabetical order
 import CertificateSection from './components/CertificateSection';
-import Courses from './components/Courses';
-import Skill from './components/Skill';
 import Contact from './components/Contact';
-import Information from './components/Information';
+import Courses from './components/Courses';
 import Education from './components/Education';
 import Experience from './components/Experience';
+import FloatingMenu from './components/FloatingMenu';
 import Footer from './components/Footer';
+import Information from './components/Information';
 import InstallPWA from './components/InstallPWA';
+import Navigation from './components/Navigation';
+import ProfileSection from './components/ProfileSection';
+import Skill from './components/Skill';
+
+// Import data
 import { content, certificates } from './data/content';
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
   const [activeSection, setActiveSection] = useState<string>('profile');
   const [age, setAge] = useState<number>(0);
 
+  // Calculate age on component mount and update daily
   useEffect(() => {
     const calculateAge = () => {
       const birthDate = new Date('2007-12-31');
@@ -30,10 +33,7 @@ function App() {
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
 
-      if (
-        monthDiff < 0 ||
-        (monthDiff === 0 && today.getDate() < birthDate.getDate())
-      ) {
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
 
@@ -41,10 +41,11 @@ function App() {
     };
 
     calculateAge();
-    const interval = setInterval(calculateAge, 86400000); // Update age daily
+    const interval = setInterval(calculateAge, 86400000); // Update daily
     return () => clearInterval(interval);
   }, []);
 
+  // Navigation configuration
   const navigationItems = [
     { id: 'profile', icon: <UserCircle size={20} /> },
     { id: 'education', icon: <School size={20} /> },
@@ -57,6 +58,7 @@ function App() {
     { id: 'social-links', icon: <Share2 size={20} />, target: 'footer' }
   ];
 
+  // Smooth scrolling handler
   const scrollToSection = (section: string) => {
     scroller.scrollTo(section, {
       duration: 800,
@@ -68,6 +70,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Navigation */}
       <Navigation 
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -76,48 +79,59 @@ function App() {
         setLanguage={setLanguage}
       />
 
+      {/* PWA Component (disabled) */}
       <InstallPWA language={language} />
 
+      {/* Profile Section */}
       <ProfileSection
         language={language}
         content={content as any}
         scrollToSection={scrollToSection}
       />
 
+      {/* Main Content Sections */}
       <main className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8">
+          {/* Education Section */}
           <Element name="education">
             <Education language={language} />
           </Element>
 
+          {/* Courses Section */}
           <Element name="courses">
             <Courses language={language} />
           </Element>
 
+          {/* Experience Section */}
           <Element name="experience">
             <Experience language={language} />
           </Element>
 
+          {/* Certificates Section */}
           <CertificateSection
             language={language}
             content={content}
             certificates={certificates}
           />
 
+          {/* Skills Section */}
           <Element name="skills">
             <Skill language={language} />
           </Element>
 
+          {/* Family Information Section */}
           <Element name="family">
             <Information language={language} age={age} />
           </Element>
 
+          {/* Contact Section */}
           <Element name="contact">
             <Contact language={language} />
           </Element>
         </div>
       </main>
 
+      {/* Footer */}
       <Element name="footer">
         <Footer
           language={language}
@@ -126,6 +140,7 @@ function App() {
         />
       </Element>
 
+      {/* Floating Menu */}
       <FloatingMenu />
     </div>
   );
