@@ -15,7 +15,6 @@ import Information from './components/Information';
 import Education from './components/Education';
 import Experience from './components/Experience';
 import Footer from './components/Footer';
-import InstallPWA from './components/InstallPWA';
 import { content, certificates } from './data/content';
 
 function App() {
@@ -67,7 +66,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
       <Navigation 
         navigationItems={navigationItems}
         activeSection={activeSection}
@@ -76,46 +75,54 @@ function App() {
         setLanguage={setLanguage}
       />
 
-      <InstallPWA language={language} />
-
       <ProfileSection
         language={language}
         content={content as any}
         scrollToSection={scrollToSection}
       />
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 gap-8">
-          <Element name="education">
+      <main className="container mx-auto px-4 py-12 space-y-16">
+        <Element name="education">
+          <div className="premium-section hover-lift">
             <Education language={language} />
-          </Element>
+          </div>
+        </Element>
 
-          <Element name="courses">
+        <Element name="courses">
+          <div className="premium-section hover-lift">
             <Courses language={language} />
-          </Element>
+          </div>
+        </Element>
 
-          <Element name="experience">
+        <Element name="experience">
+          <div className="premium-section hover-lift">
             <Experience language={language} />
-          </Element>
+          </div>
+        </Element>
 
-          <CertificateSection
-            language={language}
-            content={content}
-            certificates={certificates}
-          />
+        <CertificateSection
+          language={language}
+          content={content}
+          certificates={certificates}
+        />
 
-          <Element name="skills">
+        <Element name="skills">
+          <div className="premium-section hover-lift">
             <Skill language={language} />
-          </Element>
+          </div>
+        </Element>
 
-          <Element name="family">
+        <Element name="family">
+          <div className="premium-section hover-lift">
             <Information language={language} age={age} />
-          </Element>
+          </div>
+        </Element>
 
-          <Element name="contact">
+        <Element name="contact">
+          <div className="premium-section hover-lift">
             <Contact language={language} />
-          </Element>
-        </div>
+          </div>
+        </Element>
       </main>
 
       <Element name="footer">
